@@ -1,3 +1,8 @@
+const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+
+
 const router = require('express').Router()
 
 router.post('/register', (req, res) => {
@@ -49,5 +54,21 @@ router.post('/login', (req, res) => {
     })
   }
 })
+
+
+function makeJwt(payload) {
+  // const payload = {
+  //   username,
+  //   role,
+  //   subject: id,
+  // };
+  const config = {
+    jwtSecret: process.env.JWT_SECRET || "is it secret, is it safe?",
+  };
+  const options = {
+    expiresIn: "8 hours",
+  };
+  return jwt.sign(payload, config.jwtSecret, options);
+}
 
 module.exports = router
