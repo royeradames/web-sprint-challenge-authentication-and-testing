@@ -1,7 +1,7 @@
-const router = require("express").Router();
+const router = require("express").Router()
 
-const Users = require("./users-model.js");
-const restricted = require("../auth/authenticate-middleware");
+const Users = require("./users-model.js")
+const restricted = require("../auth/authenticate-middleware")
 
 router.get("/", restricted, (req, res) => {
   console.log('users get /')
@@ -13,14 +13,14 @@ router.get("/", restricted, (req, res) => {
       console.log(`inside findBy`)
       console.log(users)
       if (users.length) {
-        res.status(200).json(users);
+        res.status(200).json(users)
       } else {
-        res.status(200).json({message: 'no users at the moment'});
+        res.status(200).json({message: 'no users at the moment'})
       }
     })
-    .catch(err => res.send(err.message));
-});
+    .catch(err => res.send(err.message))
+})
 
 
 
-module.exports = router;
+module.exports = router

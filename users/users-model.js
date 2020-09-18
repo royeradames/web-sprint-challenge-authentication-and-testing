@@ -10,6 +10,18 @@ module.exports = {
 function find() {
   return db("users").select("id", "username").orderBy("id")
 }
+
+function findBy(filter) {
+  console.log(`user model`)
+  console.log(`inside findBy`)
+  console.log(filter)
+  
+  return db("users")
+  .where(filter)
+  .orderBy("id")
+}
+
+
 async function add(user) {
   try {
     const [id] = await db("users").insert(user, "id")
