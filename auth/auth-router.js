@@ -24,7 +24,7 @@ router.post('/register', (req, res) => {
         res.status(500).json({ message: error.message })
       })
   } else {
-    res.status(400).json({
+    res.status(404).json({
       message: "please provide username and password and the password shoud be alphanumeric",
     })
   }
@@ -33,17 +33,23 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
   // implement login
   const { username, password } = req.body
-  console.log(`users post /login`)
+  
+  // console.log(`***users post /login***`)
+  // console.log(username)
+  // console.log(password)
+
   if (isValid(req.body)) {
     Users.findBy({ username: username })
       .then(([user]) => {
+
+        console.log(`--inside findBy .then--`)
         console.log(user)
         // compare the password the hash stored in the database
         if (user && bcryptjs.compareSync(password, user.password)) {
           const token = makeJwt(user)
           res.status(200).json({ token })
         } else {
-          res.status(401).json({ message: "Invalid credentials" })
+          res.status(404).json({ message: "Invalid credentials" })
         }
       })
       .catch(error => {

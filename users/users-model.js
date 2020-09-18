@@ -12,8 +12,7 @@ function find() {
 }
 
 function findBy(filter) {
-  console.log(`user model`)
-  console.log(`inside findBy`)
+  console.log(`-- user model inside findBy --`)
   console.log(filter)
   
   return db("users")
