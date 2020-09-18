@@ -67,33 +67,52 @@ describe("server", () => {
 
 
         })
-        describe(`/users`, () => {
-            describe(`/api/users/`, () => {
-                it("should return 401 when there is no authorization header being pass", () => {
-                    return supertest(server)
-                        .get("/api/users/")
-                        .send(austinsUser)
-                        .then(res => {
-                            expect(res.status).toBe(401)
-                        })
-                })
-                it("should return No token! when there is no authorization header token ", () => {
-                    return supertest(server)
-                        .get("/api/users/")
-                        .send(austinsUser)
-                        .then(res => {
-                            expect(res.body.message).toMatch(/no token!/i)
-                        })
-                })
-                
-            })
-
-        })
 
 
 
     })
+    describe(`/users`, () => {
+        describe(`/api/users/`, () => {
+            it("should return 401 when there is no authorization header being pass", () => {
+                return supertest(server)
+                    .get("/api/users/")
+                    .send(austinsUser)
+                    .then(res => {
+                        expect(res.status).toBe(401)
+                    })
+            })
+            it("should return No token! when there is no authorization header token ", () => {
+                return supertest(server)
+                    .get("/api/users/")
+                    .send(austinsUser)
+                    .then(res => {
+                        expect(res.body.message).toMatch(/no token!/i)
+                    })
+            })
 
+        })
+
+    })
+    describe(`jokes-route`, () => {
+        it(`should return 200`, () => {
+            return supertest(server)
+            .get(`/api/jokes`)
+            .then( (res) => {
+                expect(res.status).toBe(200)
+            })
+        })
+        it(`should return respond with jokes`, () => {
+            
+            return supertest(server)
+            .get(`/api/jokes`)
+            .then( (res) => {
+                const jokes ={
+                    id: true, joke: true
+                }
+                expect(res.body).toContainEqual(jokes)
+            })
+        })
+    })
     // describe("Users GET /", () => {
     //     it("should return HTTP status code 200", () => {
     //         return supertest(server)
