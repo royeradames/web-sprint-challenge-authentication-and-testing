@@ -15,7 +15,7 @@ router.get("/", restricted, (req, res) => {
       if (users.length) {
         res.status(200).json(users)
       } else {
-        res.status(200).json({message: 'no users at the moment'})
+        res.status(404).json({message: 'no users at the moment'})
       }
     })
     .catch(err => res.status(500).json(err.message))
