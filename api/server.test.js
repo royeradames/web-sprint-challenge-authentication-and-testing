@@ -97,6 +97,7 @@ describe("server", () => {
         it(`should return 200`, () => {
             return supertest(server)
             .get(`/api/jokes`)
+            .set('authorization', currentToken) 
             .then( (res) => {
                 expect(res.status).toBe(200)
             })
@@ -105,6 +106,7 @@ describe("server", () => {
             
             return supertest(server)
             .get(`/api/jokes`)
+            .set('authorization', currentToken) 
             .then( (res) => {
                 const jokes ={
                     id: true, joke: true
