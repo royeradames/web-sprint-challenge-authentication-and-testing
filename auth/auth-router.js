@@ -42,8 +42,8 @@ router.post('/login', (req, res) => {
     Users.findBy({ username: username })
       .then(([user]) => {
 
-        console.log(`--inside findBy .then--`)
-        console.log(user)
+        // console.log(`--inside findBy .then--`)
+        // console.log(user)
         // compare the password the hash stored in the database
         if (user && bcryptjs.compareSync(password, user.password)) {
           const token = makeJwt(user)

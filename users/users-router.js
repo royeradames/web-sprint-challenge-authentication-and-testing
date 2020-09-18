@@ -4,14 +4,18 @@ const Users = require("./users-model.js")
 const restricted = require("../auth/authenticate-middleware")
 
 router.get("/", restricted, (req, res) => {
-  console.log('users get /')
-  console.log(req.jwt)
-  console.log(req.jwt.department)
+
+  // console.log('users get /')
+  // console.log(req.jwt)
+  // console.log(req.jwt.department)
+  
   const department = { department: req.jwt.department }
   Users.find(department)
     .then(users => {
+
       console.log(`inside findBy`)
       console.log(users)
+
       if (users.length) {
         res.status(200).json(users)
       } else {

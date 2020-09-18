@@ -8,7 +8,7 @@ const austinsUser = {
     username: 'austins',
     password: 'passs',
 }
-
+let currentToken
 describe("server", () => {
     describe("environment", () => {
         it('should set the DB_ENV variable to "testing"', () => {
@@ -16,11 +16,11 @@ describe("server", () => {
         })
     })
 
+    beforeAll(async () => {
+        // trucate or empty the hobbits table
+        await db("users").truncate()
+    })
     describe("Auth", () => {
-        beforeAll(async () => {
-            // trucate or empty the hobbits table
-            await db("users").truncate()
-        })
 
         describe('auth-router', () => {
             describe('post /register', () => {
@@ -43,28 +43,54 @@ describe("server", () => {
                         })
                 })
             })
+            describe('post /login', () => {
+                it("should return 201 when passed correct data", () => {
+                    // console.log(austinsUser.username)
+                    // console.log(austinsUser.password)
+                    return supertest(server)
+                        .post("/api/auth/login")
+                        .send(austinsUser)
+                        .then(res => {
+                            expect(res.status).toBe(200)
+                        })
+                })
+                it('should return 400 when Invalid credentials', () => {
+                    return supertest(server)
+                        .post("/api/auth/login")
+                        .send({ username: 1, password: 1 })
+                        .then(res => {
+                            expect(res.status).toBe(404)
+                        })
+                })
+            })
+
+
 
         })
-        describe('post /login', () => {
-            it("should return 201 when passed correct data", () => {
-                // console.log(austinsUser.username)
-                // console.log(austinsUser.password)
-                return supertest(server)
-                    .post("/api/auth/login")
-                    .send(austinsUser)
-                    .then(res => {
-                        expect(res.status).toBe(200)
-                    })
+        describe(`/users`, () => {
+            describe(`/api/users/`, () => {
+                it("should return 401 when there is no authorization header being pass", () => {
+                    return supertest(server)
+                        .get("/api/users/")
+                        .send(austinsUser)
+                        .then(res => {
+                            expect(res.status).toBe(401)
+                        })
+                })
+                it("should return No token! when there is no authorization header token ", () => {
+                    return supertest(server)
+                        .get("/api/users/")
+                        .send(austinsUser)
+                        .then(res => {
+                            expect(res.body.message).toMatch(/no token!/i)
+                        })
+                })
+                
             })
-            it('should return 400 when Invalid credentials', () => {
-                return supertest(server)
-                    .post("/api/auth/login")
-                    .send({ username: 1, password: 1 })
-                    .then(res => {
-                        expect(res.status).toBe(404)
-                    })
-            })
+
         })
+
+
 
     })
 
