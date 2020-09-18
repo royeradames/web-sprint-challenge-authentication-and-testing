@@ -1,7 +1,7 @@
 const supertest = require("supertest")
 
-const server = require("./server.js")
-const db = require("../data/dbConfig.js")
+const server = require("./server")
+const db = require("../database/dbConfig")
 
 describe("server", () => {
     describe("environment", () => {
