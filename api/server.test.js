@@ -56,14 +56,14 @@ describe("server", () => {
                         expect(res.status).toBe(200)
                     })
             })
-            // it('should return 400 when Invalid credentials', () => {
-            //     return supertest(server)
-            //         .post("/api/auth/login")
-            //         .send({ username: 1, password: 1 })
-            //         .then(res => {
-            //             expect(res.status).toBe(404)
-            //         })
-            // })
+            it('should return 400 when Invalid credentials', () => {
+                return supertest(server)
+                    .post("/api/auth/login")
+                    .send({ username: 1, password: 1 })
+                    .then(res => {
+                        expect(res.status).toBe(404)
+                    })
+            })
         })
 
     })
